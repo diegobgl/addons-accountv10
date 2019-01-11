@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="chart_account_config" model="account.config.settings">
+            <field name="group_analytic_accounting" eval="True"/>
+        </record>
+        <function name="execute" model="account.config.settings">
+            <value eval="[ref('chart_account_config')]"/>
+        </function>
+    </data>
+</odoo>

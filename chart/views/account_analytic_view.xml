@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--  .  .  .  .  .   Inherit Form View   .  .  .  .  .  -->
+
+        <record id="account_analytic_form" model="ir.ui.view">
+            <field name="name">account.analytic.account.form</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="before">
+                    <field name="parent_id"/>
+                </xpath>
+
+                <xpath expr="//form" position="attributes">
+                    <attribute name="string">Cost Center</attribute>
+                </xpath>
+                <xpath expr="//sheet" position="attributes">
+                    <attribute name="string">Cost Center</attribute>
+                </xpath>
+                <xpath expr="//label[@for='name']" position="attributes">
+                    <attribute name="string">Cost Center</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--  .  .  .  .  .   Tree View   .  .  .  .  .  -->
+
+        <record id="account_analytic_hierarchy_tree" model="ir.ui.view">
+            <field name="name">account.analytic.account.tree</field>
+            <field name="model">account.analytic.account</field>
+            <field name="field_parent">child_ids</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="partner_id"/>
+                    <field name="debit"/>
+                    <field name="credit"/>
+                    <field name="balance"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--  .  .  .  .  .  Window Action  .  .  .  .  .  -->
+
+        <record id="account_analytic_hierarchy_action" model="ir.actions.act_window">
+            <field name="name">Cost Center Hierarchy</field>
+            <field name="res_model">account.analytic.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="account_analytic_hierarchy_tree"/>
+            <field name="domain">[('parent_id','=',False)]</field>
+        </record>
+
+        <!--  .  .  .  .  .  Inherit Action  .  .  .  .  .  -->
+
+        <record id="analytic.action_analytic_account_form" model="ir.actions.act_window">
+            <field name="name">Chart Of Cost Center</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a Cost Center.
+                </p>
+            </field>
+        </record>
+
+        <record id="analytic.action_account_analytic_account_form" model="ir.actions.act_window">
+            <field name="name">Cost Center</field>
+        </record>
+
+        <record id="analytic.account_analytic_tag_action" model="ir.actions.act_window">
+            <field name="name">Cost Center Tags</field>
+            <field name="res_model">account.analytic.tag</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new tag.
+              </p>
+            </field>
+        </record>
+
+        <record id="analytic.account_analytic_line_action_entries" model="ir.actions.act_window" >
+            <field name="name">Cost Center Entries</field>
+            <field name="help" type="html">
+              <p>
+                No activity yet.
+              </p><p>
+                In Odoo, sale orders and projects are implemented using
+                Cost Center. You can track costs and revenues to analyse
+                your margins easily.
+              </p><p>
+                Costs will be created automatically when you register supplier
+                invoices, expenses or timesheets.
+              </p><p>
+                Revenues will be created automatically when you create customer
+                invoices. Customer invoices can be created based on sale orders
+                (fixed price invoices), on timesheets (based on the work done) or
+                on expenses (e.g. reinvoicing of travel costs).
+              </p>
+            </field>
+        </record>
+        <!--  .  .  .  .  .  Inherit Menuitems  .  .  .  .  .  -->
+        <menuitem id="account_analytic_hierarchy_menu" action="account_analytic_hierarchy_action" parent="account.menu_finance_entries" sequence="31"/>
+
+        <menuitem name="Cost Center"
+                  parent="account.menu_finance_entries"
+                  action="analytic.action_analytic_account_form"
+                  id="account.menu_action_analytic_account_tree2"
+                  sequence="30"
+                  groups="analytic.group_analytic_accounting"/>
+
+        <menuitem name="Cost Center Entries"
+                  parent="account.menu_finance_entries"
+                  action="analytic.account_analytic_line_action_entries"
+                  id="account.menu_action_analytic_lines_tree"
+                  sequence="35"
+                  groups="analytic.group_analytic_accounting"/>
+
+        <menuitem id="account.menu_analytic_accounting"
+                  name="Cost Center"
+                  parent="account.menu_finance_configuration"
+                  groups="analytic.group_analytic_accounting"
+                  sequence="5"/>
+
+        <menuitem id="account.account_analytic_tag_menu"
+                  name="Cost Center Tags"
+                  parent="account.menu_analytic_accounting"
+                  action="analytic.account_analytic_tag_action"
+                  groups="base.group_no_one"/>
+
+        <menuitem action="analytic.action_account_analytic_account_form"
+                  name="Cost Center"
+                  id="account.account_analytic_def_account"
+                  parent="account.menu_analytic_accounting"
+                  groups="analytic.group_analytic_accounting"
+                  sequence="0"/>
+        <menuitem action="account.tax_adjustments_form"
+                  id="account.menu_action_tax_adjustment"
+                  parent="account.menu_finance_entries" sequence="32"/>
+
+    </data>
+</odoo>

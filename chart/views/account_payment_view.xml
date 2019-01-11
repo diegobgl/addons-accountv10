@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--  .  .  .  .  .   Inherit Form View   .  .  .  .  .  -->
+
+        <record id="account_payment_form" model="ir.ui.view">
+            <field name="name">account.payment.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_type']" position="replace"/>
+                <xpath expr="//field[@name='communication']" position="after">
+                    <field name="check_process" invisible="1"/>
+                    <field name="check_number"  attrs="{'invisible': [('check_process', '=',False )],'required': [('check_process', '=',True )]}"/>
+                    <field name="bank_id"  attrs="{'invisible': [('check_process', '=',False )],'required': [('check_process', '=',True )]}"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_type']" position="attributes">
+                    <attribute name="nolabel">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="nolabel">0</attribute>
+                </xpath>
+                <xpath expr="//div[2]" position="after">
+                    <group>
+                        <field name="payment_type"  widget="radio" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </group>
+
+                </xpath>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

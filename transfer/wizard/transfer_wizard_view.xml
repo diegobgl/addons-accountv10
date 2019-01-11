@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="transfer_wizard_form_view" model="ir.ui.view">
+        <field name="name">transfer.wizard form view</field>
+        <field name="model">transfer.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Transferences">
+                <sheet>
+                    <group>
+                        <field name="from_account_id" />
+                        <field name="to_account_id" />
+                        <field name="amount" />
+                        <field name="reason" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button type="object" name="execute" string="Transfer"
+                        class="oe_highlight" />
+                    <button special="cancel" string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="transfer_wizard_action" model="ir.actions.act_window">
+        <field name="name">Transfer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">transfer.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        name="Transferencias" id="transfer_wizard_menu"
+        parent="account.menu_finance" sequence="2" />
+    <menuitem
+        name="Crear Transferencias" action="transfer_wizard_action"
+        id="new_transfer_wizard_menu" parent="transfer_wizard_menu"
+        sequence="2" />
+</odoo>
